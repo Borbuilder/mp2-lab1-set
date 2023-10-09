@@ -97,7 +97,7 @@ int TBitField::GetBit(const int n) const // получить значение б
 
 // битовые операции
 
-TBitField& TBitField::operator=(const TBitField &bf) noexcept// присваивание
+TBitField& TBitField::operator=(const TBitField &bf) // присваивание
 {
 	BitLen=bf.BitLen;
 	if (MemLen != bf.MemLen)
@@ -140,14 +140,57 @@ int TBitField::operator!=(const TBitField &bf) const // сравнение
 
 TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 {
-	if (BitLen != bf.BitLen)
+	int maxL = bf.BitLen;
+	int minL = BitLen;
+	if (BitLen > bf.BitLen)
 	{
-		throw("Длины Bitlen не совпадают");
+		maxL = BitLen;
+		minL = bf.BitLen;
 	}
-	TBitField res(MemLen);
-	for (int i = 0; i < MemLen; i++)
+	TBitField res(maxL);
+
+	int currentMemLen;
+	if (minL = BitLen)
 	{
-		res.pMem[i] = pMem[i] | bf.pMem[i];
+		currentMemLen = MemLen;
+	}
+	else
+	{
+		currentMemLen = bf.MemLen;
+	}
+	for (int i = 0; i < currentMemLen-2; i++)
+	{
+		res.pMem[i] = pMem[i];
+	}
+	/*for (int i = 0; i < bf.MemLen; i++)
+	{
+		res.pMem[i] = bf.pMem[i] | res.pMem[i];
+	}*/
+	for (int k = (currentMemLen - 1) * 32; k < minL; k++)
+	{
+		if ((bf.GetBit(k) | res.GetBit(k)) == 0)
+		{
+			res.ClrBit(k);
+		}
+		else
+		{
+			res.SetBit(k);
+		}
+	}
+	TBitField helpme(bf);
+	for (int k = minL; k < (currentMemLen*32)-1; k++)
+	{
+		
+		helpme.ClrBit(k);
+		if ((helpme.GetBit(k) | res.GetBit(k)) == 0)
+		{
+			res.ClrBit(k);
+		}
+		else
+		{
+			res.SetBit(k);
+		}
+		
 	}
 	return res;
 }
