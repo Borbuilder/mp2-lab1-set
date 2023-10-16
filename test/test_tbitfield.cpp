@@ -16,15 +16,25 @@ TEST(TBitField, can_get_length)
 
 TEST(TBitField, new_bitfield_is_set_to_zero)
 {
-  TBitField bf(100);
+  TBitField bf(38);
 
   int sum = 0;
+  //int tmp = bf.GetLength();
+  //int masget[33];
+
   for (int i = 0; i < bf.GetLength(); i++)
   {
     sum += bf.GetBit(i);
+    //masget[i]= bf.GetBit(i);
   }
 
   EXPECT_EQ(0, sum);
+  //for (int i = 0; i < bf.GetLength(); i++)
+  //{
+     
+      //cout << masget[i];
+  //
+
 }
 
 TEST(TBitField, can_set_bit)
