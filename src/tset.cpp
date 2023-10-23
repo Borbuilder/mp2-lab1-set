@@ -138,7 +138,7 @@ istream &operator>>(istream &istr, TSet &s) // ввод
 
 ostream& operator<<(ostream &ostr, const TSet &s) // вывод
 {
-    ostr << '{ ';
+    ostr <<'{';
 
     for (int i = 0; i < s.MaxPower; i++)
     {
